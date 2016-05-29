@@ -1,13 +1,12 @@
 # Paths
-#OPENCV_PATH=/usr/local
-OPENCV_PATH=/opt/local
+OPENCV_PATH=/usr/local
 
 # Programs
 CC=
 CXX=g++
 
 # Flags
-ARCH_FLAGS=-arch x86_64
+ARCH_FLAGS=
 CFLAGS=-Wextra -Wall -pedantic-errors $(ARCH_FLAGS) -O3 -fopenmp
 LDFLAGS=$(ARCH_FLAGS)
 DEFINES=
@@ -45,12 +44,12 @@ all: bin/emotion_recognizer
 	@# Make dependecy file
 	$(CXX) -MM -MT $@ -MF $(patsubst %.cc,%.d,$<) $(CFLAGS) $(DEFINES) $(INCLUDES) $<
 	@# Compile
-	$(CXX) $(CFLAGS) $(DEFINES) $(INCLUDES) -c -o $@ $< 
+	$(CXX) $(CFLAGS) $(DEFINES) -c -o $@ $< $(INCLUDES)
 
 -include $(DEPENDENCY_FILES)
 
 bin/emotion_recognizer: $(ALL_OBJECTS)
-	$(CXX) $(LDFLAGS) $(LIBRARIES) -o $@ $(ALL_OBJECTS)
+	$(CXX) $(LDFLAGS)  -o $@ $(ALL_OBJECTS) $(LIBRARIES)
 
 .PHONY: clean
 clean:
